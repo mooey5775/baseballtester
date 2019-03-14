@@ -9,6 +9,9 @@ import os
 BASEBALL_EXE = './baseball'
 
 if __name__ == '__main__':
+	if len(sys.argv) > 1:
+		BASEBALL_EXE = sys.argv[1]
+
 	solutions = pickle.load(open('solutions.pickle', 'rb'))
 
 	crashes = []
