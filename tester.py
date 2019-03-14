@@ -16,10 +16,7 @@ if __name__ == '__main__':
 	incorrects = []
 	totalTime = 0
 
-	for file in tqdm(os.listdir('testcases')):
-		if '.txt' not in file:
-			continue
-
+	for file in tqdm([i for i in os.listdir('testcases') if '.txt' in i]):
 		f = open(os.path.join('testcases', file))
 		f.readline()
 		teamDict = {}
@@ -44,11 +41,11 @@ if __name__ == '__main__':
 		if p.returncode != 0:
 			print('Crashed with return code', p.returncode, 'on file', file)
 			crashes.append(file)
-			action = input('Continue or exit [c/E]? ')
-			if action == 'c':
-				continue
-			else:
+			action = input('Continue or exit [C/e]? ')
+			if action == 'e':
 				sys.exit()
+			else:
+				continue
 
 		try:
 			wrong = []
@@ -72,35 +69,35 @@ if __name__ == '__main__':
 					for game in itertools.combinations(cert, 2):
 						totalWins += games[teamDict[game[0]]][teamDict[game[1]]]
 					if toBeat >= (totalWins/len(cert)):
-						wrong.append('Certificate for '+c[0]+"'s elimination was incorrect. You answered "+','.join(cert)+'. However, this certificate only wins on average '+str(totalWins/len(cert))+' times, which is not enough to beat a possible '+str(toBeat)+' wins from '+c[0])
+						wrong.append('Certificate for '+c[0]+"'s elimination was incorrect. You answered "+', '.join(cert)+'. However, this certificate only wins on average '+str(totalWins/len(cert))+' times, which is not enough to beat a possible '+str(toBeat)+' wins from '+c[0])
 			if len(wrong) > 0:
 				print('Incorrect answer(s) on file', file)
 				incorrects.append(file)
 				print('Error summary:')
 				print('\n'.join(wrong))
-				action = input('Continue or exit [c/E]? ')
-				if action == 'c':
-					continue
-				else:
+				action = input('Continue or exit [C/e]? ')
+				if action == 'e':
 					sys.exit()
+				else:
+					continue
 		except:
 			print('Something weird happened on file', file)
 			print('Probably your program outputted something unexpected')
 			print('Make sure your output conforms exactly to the definition in the problem statement')
 			weirds.append(file)
-			action = input('Continue or exit [c/E]? ')
-			if action == 'c':
-				continue
-			else:
+			action = input('Continue or exit [C/e]? ')
+			if action == 'e':
 				sys.exit()
+			else:
+				continue
 
 	print('-----RUN SUMMARY-----')
 	if len(crashes) > 0:
-		print('Crashed on '+','.join(crashes))
+		print('Crashed on '+', '.join(crashes))
 	if len(weirds) > 0:
-		print('Weird stuff happened on '+','.join(weirds))
+		print('Weird stuff happened on '+', '.join(weirds))
 	if len(incorrects) > 0:
-		print('Incorrect on '+','.join(incorrects))
+		print('Incorrect on '+', '.join(incorrects))
 	if len(crashes)+len(weirds)+len(incorrects) > 0:
 		print('In total,', len(crashes)+len(weirds)+len(incorrects), 'cases failed')
 	else:
